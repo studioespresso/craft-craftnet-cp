@@ -39,6 +39,7 @@
             <tr><th scope="col">{{ 'ID' }}</th>
                 <th scope="col">{{ 'Plugin' }}</th>
                 <th scope="col">{{ 'Customer' }}</th>
+                <th scope="col">{{ 'Key' }}</th>
                 <th scope="col">{{ 'Date' }}</th>
             </tr></thead>
             <tbody>
@@ -47,6 +48,7 @@
                     <td data-title="id"><code>{{ sale.id }}</code></td>
                     <td data-title="plugin">{{ sale.pluginHandle }}</td>
                     <td data-title="email">{{ sale.email }}</td>
+                    <td data-title="email"><code>{{ sale.key }}</code></td>
                     <td data-title="date">{{ sale.dateCreated }}</td>
                 </tr>
             {% endfor %}
