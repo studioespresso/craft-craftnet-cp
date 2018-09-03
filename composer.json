@@ -1,0 +1,42 @@
+{
+    "name": "studioespresso/craftnet-cp",
+    "description": "Basic craft net integration with a CP interface",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "craftnet cp"
+    ],
+    "support": {
+        "docs": "https://github.com/studioespresso/craftnet-cp/blob/master/README.md",
+        "issues": "https://github.com/studioespresso/craftnet-cp/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Studio Espresso",
+            "homepage": "https://www.studioespresso.co"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0",
+        "barrelstrength/craftnet-php": "0.0.1"
+
+    },
+    "autoload": {
+        "psr-4": {
+          "studioespresso\\craftnetcp\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Craftnet CP",
+        "handle": "craftnet-cp",
+        "hasCpSettings": true,
+        "hasCpSection": true,
+        "changelogUrl": "https://raw.githubusercontent.com/studioespresso/craftnet-cp/master/CHANGELOG.md",
+        "class": "studioespresso\\craftnetcp\\CraftnetCp"
+    }
+}

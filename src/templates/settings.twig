@@ -1,0 +1,31 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Craftnet CP plugin for Craft CMS 3.x
+ *
+ * Craftnet CP Settings.twig
+ *
+ * @author    Studio Espresso
+ * @copyright Copyright (c) 2018 Studio Espresso
+ * @link      https://www.studioespresso.co
+ * @package   CraftnetCp
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    label: 'id.craftcms.com API token',
+    instructions: 'Generate your token <a href="https://id.craftcms.com/developer/settings" target="_blank" rel="noopener">here</a>',
+    id: 'token',
+    name: 'token',
+    value: settings['token']})
+}}
+
+{{ forms.textField({
+    label: 'Your id.craftcms.com username',
+    id: 'username',
+    name: 'username',
+    value: settings['username']})
+}}
