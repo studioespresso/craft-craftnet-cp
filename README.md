@@ -1,8 +1,6 @@
 # Craftnet CP plugin for Craft CMS 3.x
 
-Basic craft net integration with a CP interface
-
-![Screenshot](resources/img/plugin-logo.png)
+Basic craftnet integration with a CP interface
 
 ## Requirements
 
@@ -22,22 +20,19 @@ To install the plugin, follow these instructions.
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Craftnet CP.
 
-## Craftnet CP Overview
-
--Insert text here-
 
 ## Configuring Craftnet CP
+Create a ``craftnet-cp.php`` file in ``/path/to/project/config`` with an array called ``plugins``, which contains ``handle => label`` for each of your plugins.
 
--Insert text here-
+    <?php return [
+        'plugins' => [
+            'plugin-handle' => 'Plugin Label',
+        ]
+    ];
 
-## Using Craftnet CP
+## Functionality
 
--Insert text here-
-
-## Craftnet CP Roadmap
-
-Some things to do, and ideas for potential features:
-
-* Release it
+- Generate one or more licenses for a plugin
+- List all sold and generated licenses
 
 Brought to you by [Studio Espresso](https://www.studioespresso.co)
