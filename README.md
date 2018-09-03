@@ -1,6 +1,8 @@
 # Craftnet CP plugin for Craft CMS 3.x
 
-Basic craftnet integration with a CP interface
+Basic craftnet integration with a CP interface. 
+
+Note that I made this mostly for myself and that future development will take place if and when I need it. Issues and PR's will be handled on a best-effort basis.
 
 ## Requirements
 
