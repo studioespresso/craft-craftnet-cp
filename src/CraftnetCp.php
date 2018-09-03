@@ -80,22 +80,13 @@ class CraftnetCp extends Plugin
         parent::init();
         self::$plugin = $this;
 
-        // Register our site routes
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['siteActionTrigger1'] = 'craftnet-cp/default';
-            }
-        );
-
         // Register our CP routes
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['cpActionTrigger1'] = 'craftnet-cp/default/do-something';
-            }
+                $event->rules['craftnet-cp/generate'] = 'craftnet-cp/default/generate';
+                $event->rules['craftnet-cp/list'] = 'craftnet-cp/default/list';            }
         );
 
         // Do something after we're installed

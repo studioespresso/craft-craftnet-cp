@@ -1,0 +1,61 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Craftnet CP plugin for Craft CMS 3.x
+ *
+ * Craftnet CP list.twig
+ *
+ * @author    Studio Espresso
+ * @copyright Copyright (c) 2018 Studio Espresso
+ * @link      https://www.studioespresso.co
+ * @package   CraftnetCp
+ * @since     1.0.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% set title = "Create new license - Craft ID" %}
+
+{% set tabs = {
+    'generate' : {
+        label: 'Generate',
+        url: url('craftnet-cp')
+    },
+    'list' : {
+        label: 'List',
+        url: url('craftnet-cp') ~ '/list'
+    }
+} %}
+{% set selectedTab = 'list' %}
+
+{% set content %}
+    {% if data.licenses|length %}
+    {% for handle, licenses in data.licenses|group('pluginHandle') %}
+        <h2>{{ handle }}</h2>
+        <table class="data fullwidth collapsible">
+            <thead>
+            <tr><th scope="col">{{ 'ID' }}</th>
+                <th scope="col">{{ 'Plugin' }}</th>
+                <th scope="col">{{ 'Customer' }}</th>
+                <th scope="col">{{ 'Date' }}</th>
+            </tr></thead>
+            <tbody>
+            {% for sale in licenses %}
+                <tr data-id="{{ sale.id }}" data-name="{{ sale.id }}">
+                    <td data-title="id"><code>{{ sale.id }}</code></td>
+                    <td data-title="plugin">{{ sale.pluginHandle }}</td>
+                    <td data-title="email">{{ sale.email }}</td>
+                    <td data-title="date">{{ sale.dateCreated }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    {% else %}
+        <div id="nosales">
+            {{ 'No sales found' }}
+        </div>
+    {% endif %}
+{% endset %}

@@ -65,15 +65,21 @@ class DefaultController extends Controller
     }
 
     /**
-     * Handle a request going to our plugin's actionDoSomething URL,
-     * e.g.: actions/craftnet-cp/default/do-something
-     *
      * @return mixed
      */
-    public function actionDoSomething()
+    public function actionList()
     {
-        $result = 'Welcome to the DefaultController actionDoSomething() method';
+        $username = CraftnetCp::$plugin->getSettings()->username;
+        $apiKey = CraftnetCp::$plugin->getSettings()->token;
+        $client = new CraftnetClient($username, $apiKey);
 
-        return $result;
+        $response = $client->pluginLicenses->get();
+
+        $pluginLicenses = $response->getBody()->getContents();
+
+        $results = json_decode($pluginLicenses);
+        return $this->renderTemplate('craftnet-cp/list', ['data' => $results]);
+
+
     }
 }
