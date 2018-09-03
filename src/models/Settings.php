@@ -41,6 +41,8 @@ class Settings extends Model
 
     public $username;
 
+    public $plugins = [];
+
     // Public Methods
     // =========================================================================
 

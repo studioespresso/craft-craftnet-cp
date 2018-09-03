@@ -60,8 +60,9 @@
                 <div class="select">
                     <select id="group" name="handle" required>
                         <option value="" selected="" disabled>---</option>
-                        <option value="navigate">Navigate</option>
-                        <option value="easy-address-field">Easy Address Field</option>
+                        {% for handle, label in plugins %}
+                            <option value="{{ handle }}">{{ label }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

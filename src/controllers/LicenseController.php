@@ -17,7 +17,7 @@ use Craft;
 use craft\web\Controller;
 
 /**
- * Default Controller
+ * License Controller
  *
  * Generally speaking, controllers are the middlemen between the front end of
  * the CP/website and your plugin’s services. They contain action methods which
@@ -36,8 +36,14 @@ use craft\web\Controller;
  * @package   CraftnetCp
  * @since     1.0.0
  */
-class DefaultController extends Controller
+class LicenseController extends Controller
 {
+
+    public function actionIndex() {
+        $plugins = CraftnetCp::$plugin->getSettings()->plugins;
+        return $this->renderTemplate('craftnet-cp/index', ['plugins' => $plugins]);
+
+    }
 
     // Public Methods
     // =========================================================================

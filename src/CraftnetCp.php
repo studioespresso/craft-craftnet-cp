@@ -85,8 +85,10 @@ class CraftnetCp extends Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['craftnet-cp/generate'] = 'craftnet-cp/default/generate';
-                $event->rules['craftnet-cp/list'] = 'craftnet-cp/default/list';            }
+                $event->rules['craftnet-cp'] = 'craftnet-cp/license/index';
+                $event->rules['craftnet-cp/generate'] = 'craftnet-cp/license/generate';
+                $event->rules['craftnet-cp/list'] = 'craftnet-cp/license/list';
+            }
         );
 
         // Do something after we're installed
