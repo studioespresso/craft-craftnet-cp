@@ -16,10 +16,85 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
-{# The title of this CP section #}
-{% set title = "Craftnet CP" %}
+{% set title = "Create new license - Craft ID" %}
 
-{# The content of the CP Section#}
+{% set tabs = {
+    'generate' : {
+        label: 'Generate',
+        url: url('craftnet-cp')
+    },
+    'list' : {
+        label: 'List',
+        url: url('craftnet-cp') ~ '/list'
+    }
+} %}
+
 {% set content %}
+    <form method="post" data-saveshortcut data-confirm-unload action="{{ actionUrl('craftnet-cp/default/generate') }}">
+        {{ csrfInput() }}
+        {{ redirectInput('craftnet-cp') }}
 
+        <div class="field" id="name-field">
+            <div class="heading">
+                <label id="name-label" class="required" for="email">{{ 'Email' }}</label>
+            </div>
+            <div class="input ltr">
+                <input class="text fullwidth" type="email" id="email" name="email" autofocus="" autocomplete="off" required="required">
+            </div>
+        </div>
+
+        <div class="field" id="name-field">
+            <div class="heading">
+                <label id="name-label" class="required" for="title">{{ 'Edition' }}</label>
+            </div>
+            <div class="input ltr">
+                <input class="text fullwidth" type="text" id="title" name="edition" value="standard" readonly autofocus="" autocomplete="off" required="required">
+            </div>
+        </div>
+
+        <div class="field first" id="group-field">
+            <div class="heading">
+                <label id="group-label" class="required" for="group">Plugin</label>
+            </div>
+            <div class="input ltr">
+                <div class="select">
+                    <select id="group" name="handle" required>
+                        <option value="" selected="" disabled>---</option>
+                        <option value="navigate">Navigate</option>
+                        <option value="easy-address-field">Easy Address Field</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="field" id="name-field">
+            <div class="heading">
+                <label id="name-label" for="notes">{{ 'Notes' }}</label>
+            </div>
+            <div class="input ltr">
+                <input class="text fullwidth" type="text" id="notes" name="notes" autofocus="" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="field" id="name-field">
+            <div class="heading">
+                <label id="name-label" for="privateNotes">{{ 'Private notes' }}</label>
+            </div>
+            <div class="input ltr">
+                <input class="text fullwidth" type="text" id="privateNotes" name="privateNotes" autofocus="" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="field" id="name-field">
+            <div class="heading">
+                <label id="name-label" for="count">{{ 'Number of licenses' }}</label>
+            </div>
+            <div class="input ltr">
+                <input class="text fullwidth" type="number" id="count" name="count" autofocus="" autocomplete="off">
+            </div>
+        </div>
+
+        <input type="submit" class="btn submit" value="{{ 'Generate' }}">
+
+    </form>
 {% endset %}

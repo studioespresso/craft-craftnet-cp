@@ -10,6 +10,7 @@
 
 namespace studioespresso\craftnetcp\controllers;
 
+use barrelstrength\craftnetphp\CraftnetClient;
 use studioespresso\craftnetcp\CraftnetCp;
 
 use Craft;
@@ -38,30 +39,32 @@ use craft\web\Controller;
 class DefaultController extends Controller
 {
 
-    // Protected Properties
-    // =========================================================================
-
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
-    protected $allowAnonymous = ['index', 'do-something'];
-
     // Public Methods
     // =========================================================================
-
-    /**
-     * Handle a request going to our plugin's index action URL,
-     * e.g.: actions/craftnet-cp/default
-     *
-     * @return mixed
-     */
-    public function actionIndex()
+    public function actionGenerate()
     {
-        $result = 'Welcome to the DefaultController actionIndex() method';
+        $handle = Craft::$app->request->getRequiredBodyParam('handle');
+        $email = Craft::$app->request->getRequiredBodyParam('email');
+        $edition = Craft::$app->request->getBodyParam('edition') ? Craft::$app->request->getBodyParam('edition') : 'standard';
+        $notes = Craft::$app->request->getBodyParam('notes');
+        $privateNotes = Craft::$app->request->getBodyParam('privateNotes');
+        $count = Craft::$app->request->getBodyParam('count');
 
-        return $result;
+        $username = CraftnetCp::$plugin->getSettings()->username;
+        $apiKey = CraftnetCp::$plugin->getSettings()->token;
+        $client = new CraftnetClient($username, $apiKey);
+
+        for ($x = 1; $x <= $count; $x++) {
+            $response = $client->pluginLicenses->create([
+                'edition' => $edition,
+                'plugin' => $handle,
+                'email' => $email,
+                'notes' => $notes,
+                'privateNotes' => $privateNotes
+            ]);
+        }
+
+        return;
     }
 
     /**
