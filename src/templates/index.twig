@@ -68,6 +68,13 @@
             </div>
         </div>
 
+        {{ forms.lightswitchField({
+            label: 'Whether the license should be expirable ',
+            id: 'expirable',
+            name: 'expirable'
+
+        }) }}
+
         <div class="field" id="name-field">
             <div class="heading">
                 <label id="name-label" for="notes">{{ 'Notes' }}</label>
@@ -91,7 +98,7 @@
                 <label id="name-label" for="count">{{ 'Number of licenses' }}</label>
             </div>
             <div class="input ltr">
-                <input class="text fullwidth" type="number" id="count" name="count" autofocus="" autocomplete="off">
+                <input class="text fullwidth" value="1" min="1" type="number" id="count" name="count" autofocus="" autocomplete="off">
             </div>
         </div>
 
