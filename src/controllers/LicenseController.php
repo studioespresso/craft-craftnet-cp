@@ -52,6 +52,7 @@ class LicenseController extends Controller
         $handle = Craft::$app->request->getRequiredBodyParam('handle');
         $email = Craft::$app->request->getRequiredBodyParam('email');
         $edition = Craft::$app->request->getBodyParam('edition') ? Craft::$app->request->getBodyParam('edition') : 'standard';
+        $expirable = Craft::$app->request->getBodyParam('expirable');
         $notes = Craft::$app->request->getBodyParam('notes');
         $privateNotes = Craft::$app->request->getBodyParam('privateNotes');
         $count = Craft::$app->request->getBodyParam('count');
@@ -66,11 +67,13 @@ class LicenseController extends Controller
                 'plugin' => $handle,
                 'email' => $email,
                 'notes' => $notes,
+                'expirable' => $expirable ? true : false,
                 'privateNotes' => $privateNotes
             ]);
         }
 
-        return;
+        Craft::$app->getSession()->setNotice('License generated');
+        return $this->redirectToPostedUrl();
     }
 
     /**
