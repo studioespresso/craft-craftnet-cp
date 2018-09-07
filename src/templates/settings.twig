@@ -16,16 +16,19 @@
 {% import "_includes/forms" as forms %}
 
 {{ forms.textField({
-    label: 'id.craftcms.com API token',
-    instructions: 'Generate your token <a href="https://id.craftcms.com/developer/settings" target="_blank" rel="noopener">here</a>',
-    id: 'token',
-    name: 'token',
-    value: settings['token']})
-}}
-
-{{ forms.textField({
-    label: 'Your id.craftcms.com username',
+    label: 'Username',
+    instructions: 'Your id.craftcms.com username',
     id: 'username',
     name: 'username',
-    value: settings['username']})
-}}
+    value: settings['username'],
+    first: true
+}) }}
+
+{{ forms.textField({
+    label: 'API token',
+    instructions: 'Generate your Craft ID API token <a href="https://id.craftcms.com/developer/settings" target="_blank" rel="noopener">here</a>',
+    id: 'token',
+    name: 'token',
+    value: settings['token']
+}) }}
+
