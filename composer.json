@@ -23,7 +23,7 @@
     ],
     "require": {
         "craftcms/cms": "^3.0.0",
-        "barrelstrength/craftnet-php": "0.0.1"
+        "barrelstrength/craftnet-php": "1.0.0 "
 
     },
     "autoload": {
