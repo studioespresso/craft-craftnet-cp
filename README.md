@@ -24,12 +24,21 @@ To install the plugin, follow these instructions.
 
 
 ## Configuring Craftnet CP
-Create a ``craftnet-cp.php`` file in ``/path/to/project/config`` with an array called ``plugins``, which contains ``handle => label`` for each of your plugins.
+
+You can manage the following settings in your `craftnet-cp.php` file:
+
+- username (optional, also available as setting in CP)
+- token (optional, also available as setting in CP)
+- plugins (required, contains `handle => label` for each of your plugins.)
+- displayNotes (optional, displays notes below plugin license info)
 
     <?php return [
+        'username' => 'you@myawesomeplugins.com',
+        'token' => '5tmukfu4x2ld8xm1619oJy8klw17fvDsXsDDft8nk
         'plugins' => [
             'plugin-handle' => 'Plugin Label',
-        ]
+        ],
+        'displayNotes' => true
     ];
 
 ## Functionality
