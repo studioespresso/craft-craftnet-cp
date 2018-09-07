@@ -81,19 +81,28 @@ class LicenseController extends Controller
     /**
      * @return mixed
      */
-    public function actionList()
+    public function actionList(int $page = 1)
     {
+        if ($requestedPage = Craft::$app->request->getBodyParam('page')) {
+            $page = (int)$requestedPage;
+        }
+
         $username = CraftnetCp::$plugin->getSettings()->username;
         $apiKey = CraftnetCp::$plugin->getSettings()->token;
         $client = new CraftnetClient($username, $apiKey);
 
-        $response = $client->pluginLicenses->get();
+        $response = $client->pluginLicenses->get([
+            'page' => $page
+        ]);
 
         $pluginLicenses = $response->getBody()->getContents();
 
         $results = json_decode($pluginLicenses);
-        return $this->renderTemplate('craftnet-cp/list', ['data' => $results]);
 
-
+        return $this->renderTemplate('craftnet-cp/list', [
+            'data' => $results,
+            'page' => $page,
+            'displayNotes' => CraftnetCp::$plugin->getSettings()->displayNotes
+        ]);
     }
 }
