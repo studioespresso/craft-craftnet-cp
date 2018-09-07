@@ -38,11 +38,13 @@ use craft\web\Controller;
  */
 class LicenseController extends Controller
 {
-
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $plugins = CraftnetCp::$plugin->getSettings()->plugins;
-        return $this->renderTemplate('craftnet-cp/index', ['plugins' => $plugins]);
 
+        return $this->renderTemplate('craftnet-cp/index', [
+            'plugins' => $plugins
+        ]);
     }
 
     // Public Methods
