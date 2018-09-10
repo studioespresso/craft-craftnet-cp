@@ -16,21 +16,40 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
-{% set title = "Plugin licenses - Craft ID" %}
+{% set title = "Plugin licenses (" ~ data.total ~ ")" %}
+{% set selectedSubnavItem = 'list' %}
 
-{% set tabs = {
-    'generate' : {
-        label: 'Generate',
-        url: url('craftnet-cp')
-    },
-    'list' : {
-        label: 'List',
-        url: url('craftnet-cp') ~ '/list'
-    }
-} %}
 {% set selectedTab = 'list' %}
 
-{% set content %}
+{% block actionButton %}
+
+    {% set pages = [] %}
+    {% for i in 1..data.totalPages %}
+        {% set pages = pages|merge([{
+            'label': i,
+            'value': i
+        }]) %}
+    {% endfor %}
+
+    <form method="post" data-saveshortcut data-confirm-unload>
+        <input type="hidden" name="action" value="craftnet-cp/license/list">
+        {{ csrfInput() }}
+
+        {{ forms.select({
+            id: "page",
+            name: "page",
+            label: "Page"|t('craftnet-cp'),
+            options: pages,
+            value: page
+        }) }}
+
+        <input type="submit" class="btn submit" value="{{ 'Update' }}">
+
+    </form>
+
+{% endblock %}
+
+{% block content %}
     {% if data.licenses|length %}
     {% for handle, licenses in data.licenses|group('pluginHandle') %}
         <h2>{{ handle }}</h2>
@@ -51,6 +70,11 @@
                     <td data-title="email"><code>{{ sale.key }}</code></td>
                     <td data-title="date">{{ sale.dateCreated }}</td>
                 </tr>
+                {% if displayNotes %}
+                    <tr>
+                       <td colspan="5" class="light">{{ "Notes:"|t('craftnet-cp') }}: {{ sale.notes }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
@@ -60,4 +84,4 @@
             {{ 'No sales found' }}
         </div>
     {% endif %}
-{% endset %}
+{% endblock %}

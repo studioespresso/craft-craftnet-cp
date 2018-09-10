@@ -43,6 +43,8 @@ class Settings extends Model
 
     public $plugins = [];
 
+    public $displayNotes = false;
+
     // Public Methods
     // =========================================================================
 

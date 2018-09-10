@@ -86,6 +86,7 @@ class CraftnetCp extends Plugin
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
                 $event->rules['craftnet-cp'] = 'craftnet-cp/license/index';
+                $event->rules['craftnet-cp/index'] = 'craftnet-cp/license/index';
                 $event->rules['craftnet-cp/generate'] = 'craftnet-cp/license/generate';
                 $event->rules['craftnet-cp/list'] = 'craftnet-cp/license/list';
             }
@@ -157,5 +158,22 @@ class CraftnetCp extends Plugin
                 'settings' => $this->getSettings()
             ]
         );
+    }
+
+    public function getCpNavItem()
+    {
+        $parent = parent::getCpNavItem();
+
+        $navigation['subnav']['generate'] = [
+            'label' => Craft::t('craftnet-cp', 'Generate'),
+            'url' => 'craftnet-cp/index'
+        ];
+
+        $navigation['subnav']['list'] = [
+            'label' => Craft::t('craftnet-cp', 'Licenses'),
+            'url' => 'craftnet-cp/list'
+        ];
+
+        return array_merge($parent, $navigation);
     }
 }
