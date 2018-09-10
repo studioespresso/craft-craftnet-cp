@@ -16,93 +16,132 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
-{% set title = "Create new license - Craft ID" %}
-
-{% set tabs = {
-    'generate' : {
-        label: 'Generate',
-        url: url('craftnet-cp')
-    },
-    'list' : {
-        label: 'List',
-        url: url('craftnet-cp') ~ '/list'
-    }
-} %}
+{% set title = "Create a new license" %}
+{% set selectedSubnavItem = 'generate' %}
 
 {% set content %}
     <form method="post" data-saveshortcut data-confirm-unload action="{{ actionUrl('craftnet-cp/license/generate') }}">
         {{ csrfInput() }}
         {{ redirectInput('craftnet-cp') }}
 
-        <div class="field" id="name-field">
-            <div class="heading">
-                <label id="name-label" class="required" for="email">{{ 'Email' }}</label>
-            </div>
-            <div class="input ltr">
-                <input class="text fullwidth" type="email" id="email" name="email" autofocus="" autocomplete="off" required="required">
-            </div>
-        </div>
-
-        <div class="field" id="name-field">
-            <div class="heading">
-                <label id="name-label" class="required" for="title">{{ 'Edition' }}</label>
-            </div>
-            <div class="input ltr">
-                <input class="text fullwidth" type="text" id="title" name="edition" value="standard" readonly autofocus="" autocomplete="off" required="required">
-            </div>
-        </div>
-
-        <div class="field first" id="group-field">
-            <div class="heading">
-                <label id="group-label" class="required" for="group">Plugin</label>
-            </div>
-            <div class="input ltr">
-                <div class="select">
-                    <select id="group" name="handle" required>
-                        <option value="" selected="" disabled>---</option>
-                        {% for handle, label in plugins %}
-                            <option value="{{ handle }}">{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        {{ forms.lightswitchField({
-            label: 'Whether the license should be expirable ',
-            id: 'expirable',
-            name: 'expirable'
-
+        {{ forms.textField({
+            label: 'Email'|t('craftnet-cp'),
+            instructions: 'The Craft ID email to assign the license'|t('craftnet-cp'),
+            id: 'email',
+            name: 'email',
+            value: '',
+            first: true,
+            required: true
         }) }}
 
-        <div class="field" id="name-field">
-            <div class="heading">
-                <label id="name-label" for="notes">{{ 'Notes' }}</label>
-            </div>
-            <div class="input ltr">
-                <input class="text fullwidth" type="text" id="notes" name="notes" autofocus="" autocomplete="off">
-            </div>
-        </div>
+        {{ forms.textField({
+            label: 'Edition'|t('craftnet-cp'),
+            instructions: 'The edition of the plugin license'|t('craftnet-cp'),
+            id: 'edition',
+            name: 'edition',
+            value: 'standard',
+            required: true,
+            readonly: true
+        }) }}
 
-        <div class="field" id="name-field">
-            <div class="heading">
-                <label id="name-label" for="privateNotes">{{ 'Private notes' }}</label>
-            </div>
-            <div class="input ltr">
-                <input class="text fullwidth" type="text" id="privateNotes" name="privateNotes" autofocus="" autocomplete="off">
-            </div>
-        </div>
+        {% set pluginOptions = {} %}
+        {% set pluginOptions = pluginOptions|merge([{
+            'label': 'Select a plugin...'|t('craftnet-cp'),
+            'value': ''
+        }]) %}
 
-        <div class="field" id="name-field">
-            <div class="heading">
-                <label id="name-label" for="count">{{ 'Number of licenses' }}</label>
-            </div>
-            <div class="input ltr">
-                <input class="text fullwidth" value="1" min="1" type="number" id="count" name="count" autofocus="" autocomplete="off">
-            </div>
-        </div>
+        {% for handle, label in plugins %}
+            {% set pluginOptions = pluginOptions|merge([{
+                'label': label,
+                'value': handle
+            }]) %}
+        {% endfor %}
+
+        {{ forms.selectField({
+            id: "handle",
+            name: "handle",
+            label: "Plugin"|t('craftnet-cp'),
+            required: true,
+            options: pluginOptions,
+            value: ''
+        }) }}
+
+        {{ forms.selectField({
+            id: "count",
+            name: "count",
+            label: "Number of Licenses"|t('craftnet-cp'),
+            instructions: "The number of licenses you wish to create for this user."|t('craftnet-cp'),
+            required: true,
+            options: [
+                {
+                    label: "1",
+                    value: 1,
+                },
+                {
+                    label: "2",
+                    value: 2,
+                },
+                {
+                    label: "3",
+                    value: 3,
+                },
+                {
+                    label: "4",
+                    value: 4,
+                },
+                {
+                    label: "5",
+                    value: 5,
+                },
+                {
+                    label: "6",
+                    value: 6,
+                },
+                {
+                    label: "7",
+                    value: 7,
+                },
+                {
+                    label: "8",
+                    value: 8,
+                },
+                {
+                    label: "9",
+                    value: 9,
+                },
+                {
+                    label: "10",
+                    value: 10,
+                },
+                {
+                    label: "11",
+                    value: 11,
+                }
+            ],
+            value: ''
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: 'Expirable'|t('craftnet-cp'),
+            instructions: 'Whether the license should be expirable.'|t('craftnet-cp'),
+            id: 'expirable',
+            name: 'expirable'
+        }) }}
+
+        {{ forms.textareaField({
+            label: 'Notes'|t('craftnet-cp'),
+            instructions: 'Notes that will display to the license holder.'|t('craftnet-cp'),
+            id: 'notes',
+            name: 'notes'
+        }) }}
+
+        {{ forms.textareaField({
+            label: 'Private Notes'|t('craftnet-cp'),
+            instructions: 'Notes that will only be visible to the plugin developer (theoretically).'|t('craftnet-cp'),
+            id: 'privateNotes',
+            name: 'privateNotes'
+        }) }}
 
         <input type="submit" class="btn submit" value="{{ 'Generate' }}">
-
     </form>
 {% endset %}
