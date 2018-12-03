@@ -1,6 +1,6 @@
 # Craftnet CP plugin for Craft CMS 3.x
 
-Basic craftnet integration with a CP interface. 
+Basic craftnet integration with a CP interface and command line tools. 
 
 Note that I made this mostly for myself and that future development will take place if and when I need it. Issues and PR's will be handled on a best-effort basis.
 
@@ -22,7 +22,6 @@ To install the plugin, follow these instructions.
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Craftnet CP.
 
-
 ## Configuring Craftnet CP
 
 You can manage the following settings in your `craftnet-cp.php` file:
@@ -34,12 +33,51 @@ You can manage the following settings in your `craftnet-cp.php` file:
 
     <?php return [
         'username' => 'you@myawesomeplugins.com',
-        'token' => '5tmukfu4x2ld8xm1619oJy8klw17fvDsXsDDft8nk
+        'token' => '5tmukfu4x2ld8xm1619oJy8klw17fvDsXsDDft8nk'
         'plugins' => [
             'plugin-handle' => 'Plugin Label',
         ],
         'displayNotes' => true
     ];
+
+## Console Commands
+
+You can add licenses individually or in bulk from the command line.
+
+### craftnet-cp/license/generate
+
+```
+// Generate a single license
+./craft craftnet-cp/license/generate --email=customer@company.com --plugin=my-plugin-handle 
+
+// Generate a single license with more details
+./craft craftnet-cp/license/generate --email=customer@company.com --plugin=my-plugin-handle --edition=free --expirable=true --notes="Things to note." --privateNotes="Things to note."
+
+// Generate multiple licenses
+./craft craftnet-cp/license/generate --email=customer@company.com --plugin=my-plugin-handle --count=3
+```
+
+- The `edition` attribute defaults to `standard`
+- The `expirable` attribute defaults to `false`
+- The `count` attribute defaults to `1`
+
+### craftnet-cp/license/import-csv
+
+Add licenses in bulk via a CSV file. 
+
+```
+./craft craftnet-cp/license/import-csv --file="/path/to/file.csv"
+```
+
+CSV files can include the following column headers:
+
+- plugin
+- email
+- count
+- edition
+- expirable
+- notes
+- privateNotes
 
 ## Functionality
 
