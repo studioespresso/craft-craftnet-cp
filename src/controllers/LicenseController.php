@@ -61,7 +61,7 @@ class LicenseController extends Controller
 
         $username = CraftnetCp::$plugin->getSettings()->username;
         $apiKey = CraftnetCp::$plugin->getSettings()->token;
-        $client = new CraftnetClient($username, $apiKey);
+        $client = $this->_getCraftnetClient($username, $apiKey);
 
         for ($x = 1; $x <= $count; $x++) {
             $response = $client->pluginLicenses->create([
@@ -89,7 +89,7 @@ class LicenseController extends Controller
 
         $username = CraftnetCp::$plugin->getSettings()->username;
         $apiKey = CraftnetCp::$plugin->getSettings()->token;
-        $client = new CraftnetClient($username, $apiKey);
+        $client = $this->_getCraftnetClient($username, $apiKey);
 
         $response = $client->pluginLicenses->get([
             'page' => $page
@@ -102,7 +102,19 @@ class LicenseController extends Controller
         return $this->renderTemplate('craftnet-cp/list', [
             'data' => $results,
             'page' => $page,
-            'displayNotes' => CraftnetCp::$plugin->getSettings()->displayNotes
         ]);
+    }
+
+    /**
+     * Gets a configured instance of the Craftnet API Client
+     *
+     * @return CraftnetClient
+     */
+    private function _getCraftnetClient($username, $apiKey)
+    {
+        return new CraftnetClient(
+            Craft::parseEnv($username),
+            Craft::parseEnv($apiKey)
+        );
     }
 }

@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.0 - 2019-03-01
+### Added
+- Support for environment variables in control panel settings.
+### Changed
+- Improved listing Date display format.
+### Removed
+- Removed `displayNotes` setting, including notes within listing rows using info tooltip.
+
 ## 1.2.0 - 2018-09-10
 ### Added
 - Pagination & seperated tabs ([via BenParizek, #2](https://github.com/studioespresso/craft3-craftnet-cp/pull/2))
