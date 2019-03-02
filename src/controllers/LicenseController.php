@@ -112,9 +112,16 @@ class LicenseController extends Controller
      */
     private function _getCraftnetClient($username, $apiKey)
     {
-        return new CraftnetClient(
-            Craft::parseEnv($username),
-            Craft::parseEnv($apiKey)
-        );
+        $isCraft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
+
+        if ($isCraft31)
+        {
+            return new CraftnetClient(
+                Craft::parseEnv($username),
+                Craft::parseEnv($apiKey)
+            );
+        }
+
+        return new CraftnetClient($username, $apiKey);
     }
 }

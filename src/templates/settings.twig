@@ -15,7 +15,7 @@
 
 {% import "_includes/forms" as forms %}
 
-{{ forms.autosuggestField({
+{% set usernameFieldSettings = {
     label: 'Username',
     instructions: 'Your id.craftcms.com username',
     id: 'username',
@@ -23,15 +23,24 @@
     value: settings['username'],
     first: true,
     errors: settings.getErrors('username'),
-    suggestions: craft.cp.getEnvSuggestions(),
-}) }}
+} %}
 
-{{ forms.autosuggestField({
+{% set tokenFieldSettings = {
     label: 'API token',
     instructions: 'Generate your Craft ID API token <a href="https://id.craftcms.com/developer/settings" target="_blank" rel="noopener">here</a>',
     id: 'token',
     name: 'token',
     value: settings['token'],
     errors: settings.getErrors('token'),
-    suggestions: craft.cp.getEnvSuggestions(),
-}) }}
+} %}
+
+{% if isCraft31 %}
+    {% set usernameFieldSettings = usernameFieldSettings | merge({ suggestions: craft.cp.getEnvSuggestions() }) %}
+    {{ forms.autosuggestField(usernameFieldSettings) }}
+
+    {% set tokenFieldSettings = tokenFieldSettings | merge({ suggestions: craft.cp.getEnvSuggestions() }) %}
+    {{ forms.autosuggestField(tokenFieldSettings) }}
+{% else %}
+    {{ forms.textField(usernameFieldSettings) }}
+    {{ forms.passwordField(tokenFieldSettings) }}
+{% endif %}
