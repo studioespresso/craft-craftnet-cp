@@ -19,6 +19,7 @@ use craft\events\PluginEvent;
 use craft\web\UrlManager;
 use craft\events\RegisterUrlRulesEvent;
 
+use studioespresso\craftnetcp\services\Licenses;
 use yii\base\Event;
 
 /**
@@ -55,6 +56,13 @@ class CraftnetCp extends Plugin
     // =========================================================================
 
     /**
+     * Licenses Service
+     *
+     * @var Licenses
+     */
+    public $licenses;
+
+    /**
      * To execute your plugin’s migrations, you’ll need to increase its schema version.
      *
      * @var string
@@ -79,6 +87,8 @@ class CraftnetCp extends Plugin
     {
         parent::init();
         self::$plugin = $this;
+
+        $this->licenses = new Licenses();
 
         // Register our CP routes
         Event::on(
