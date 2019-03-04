@@ -15,6 +15,7 @@ use studioespresso\craftnetcp\CraftnetCp;
 
 use Craft;
 use craft\web\Controller;
+use studioespresso\craftnetcp\models\License;
 
 /**
  * License Controller
@@ -51,30 +52,28 @@ class LicenseController extends Controller
     // =========================================================================
     public function actionGenerate()
     {
-        $handle = Craft::$app->request->getRequiredBodyParam('handle');
-        $email = Craft::$app->request->getRequiredBodyParam('email');
-        $edition = Craft::$app->request->getBodyParam('edition') ? Craft::$app->request->getBodyParam('edition') : 'standard';
-        $expirable = Craft::$app->request->getBodyParam('expirable');
-        $notes = Craft::$app->request->getBodyParam('notes');
-        $privateNotes = Craft::$app->request->getBodyParam('privateNotes');
-        $count = Craft::$app->request->getBodyParam('count');
+        // License Info
+        $license = new License();
+        $license->plugin = Craft::$app->request->getRequiredBodyParam('handle');
+        $license->email = Craft::$app->request->getRequiredBodyParam('email');
+        $license->edition = Craft::$app->request->getBodyParam('edition') ? Craft::$app->request->getBodyParam('edition') : 'standard';
+        $license->expirable = Craft::$app->request->getBodyParam('expirable');
+        $license->notes = Craft::$app->request->getBodyParam('notes');
+        $license->privateNotes = Craft::$app->request->getBodyParam('privateNotes');
+        $license->count = Craft::$app->request->getBodyParam('count');
+        
+        if (!CraftnetCp::$plugin->licenses->createLicense($license))
+        {
+            $errorMessage = Craft::t('craftnet-cp', 'Unable to generate license(s)');
+            Craft::$app->getSession()->setError($errorMessage);
+            Craft::error($errorMessage);
 
-        $username = CraftnetCp::$plugin->getSettings()->username;
-        $apiKey = CraftnetCp::$plugin->getSettings()->token;
-        $client = new CraftnetClient($username, $apiKey);
-
-        for ($x = 1; $x <= $count; $x++) {
-            $response = $client->pluginLicenses->create([
-                'edition' => $edition,
-                'plugin' => $handle,
-                'email' => $email,
-                'notes' => $notes,
-                'expirable' => $expirable ? true : false,
-                'privateNotes' => $privateNotes
+            return Craft::$app->getUrlManager()->setRouteParams([
+                'license' => $license
             ]);
         }
 
-        Craft::$app->getSession()->setNotice('License generated');
+        Craft::$app->getSession()->setNotice('License(s) generated');
         return $this->redirectToPostedUrl();
     }
 
