@@ -15,20 +15,32 @@
 
 {% import "_includes/forms" as forms %}
 
-{{ forms.textField({
+{% set usernameFieldSettings = {
     label: 'Username',
     instructions: 'Your id.craftcms.com username',
     id: 'username',
     name: 'username',
     value: settings['username'],
-    first: true
-}) }}
+    first: true,
+    errors: settings.getErrors('username'),
+} %}
 
-{{ forms.textField({
+{% set tokenFieldSettings = {
     label: 'API token',
     instructions: 'Generate your Craft ID API token <a href="https://id.craftcms.com/developer/settings" target="_blank" rel="noopener">here</a>',
     id: 'token',
     name: 'token',
-    value: settings['token']
-}) }}
+    value: settings['token'],
+    errors: settings.getErrors('token'),
+} %}
 
+{% if isCraft31 %}
+    {% set usernameFieldSettings = usernameFieldSettings | merge({ suggestions: craft.cp.getEnvSuggestions() }) %}
+    {{ forms.autosuggestField(usernameFieldSettings) }}
+
+    {% set tokenFieldSettings = tokenFieldSettings | merge({ suggestions: craft.cp.getEnvSuggestions() }) %}
+    {{ forms.autosuggestField(tokenFieldSettings) }}
+{% else %}
+    {{ forms.textField(usernameFieldSettings) }}
+    {{ forms.passwordField(tokenFieldSettings) }}
+{% endif %}

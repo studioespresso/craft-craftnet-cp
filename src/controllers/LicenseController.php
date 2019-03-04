@@ -68,8 +68,18 @@ class LicenseController extends Controller
             Craft::$app->getSession()->setError($errorMessage);
             Craft::error($errorMessage);
 
-            return Craft::$app->getUrlManager()->setRouteParams([
-                'license' => $license
+        $username = CraftnetCp::$plugin->getSettings()->username;
+        $apiKey = CraftnetCp::$plugin->getSettings()->token;
+        $client = $this->_getCraftnetClient($username, $apiKey);
+
+        for ($x = 1; $x <= $count; $x++) {
+            $response = $client->pluginLicenses->create([
+                'edition' => $edition,
+                'plugin' => $handle,
+                'email' => $email,
+                'notes' => $notes,
+                'expirable' => $expirable ? true : false,
+                'privateNotes' => $privateNotes
             ]);
         }
 
@@ -88,7 +98,7 @@ class LicenseController extends Controller
 
         $username = CraftnetCp::$plugin->getSettings()->username;
         $apiKey = CraftnetCp::$plugin->getSettings()->token;
-        $client = new CraftnetClient($username, $apiKey);
+        $client = $this->_getCraftnetClient($username, $apiKey);
 
         $response = $client->pluginLicenses->get([
             'page' => $page
@@ -101,7 +111,26 @@ class LicenseController extends Controller
         return $this->renderTemplate('craftnet-cp/list', [
             'data' => $results,
             'page' => $page,
-            'displayNotes' => CraftnetCp::$plugin->getSettings()->displayNotes
         ]);
+    }
+
+    /**
+     * Gets a configured instance of the Craftnet API Client
+     *
+     * @return CraftnetClient
+     */
+    private function _getCraftnetClient($username, $apiKey)
+    {
+        $isCraft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
+
+        if ($isCraft31)
+        {
+            return new CraftnetClient(
+                Craft::parseEnv($username),
+                Craft::parseEnv($apiKey)
+            );
+        }
+
+        return new CraftnetClient($username, $apiKey);
     }
 }

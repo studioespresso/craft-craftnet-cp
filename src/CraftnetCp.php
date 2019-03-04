@@ -165,7 +165,8 @@ class CraftnetCp extends Plugin
         return Craft::$app->view->renderTemplate(
             'craftnet-cp/settings',
             [
-                'settings' => $this->getSettings()
+                'settings'  => $this->getSettings(),
+                'isCraft31' => version_compare(Craft::$app->getVersion(), '3.1', '>='),
             ]
         );
     }

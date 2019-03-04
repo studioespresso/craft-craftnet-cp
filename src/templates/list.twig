@@ -16,7 +16,7 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
-{% set title = "Plugin licenses (" ~ data.total ~ ")" %}
+{% set title = "Plugin Licenses (" ~ data.total ~ ")" %}
 {% set selectedSubnavItem = 'list' %}
 
 {% set selectedTab = 'list' %}
@@ -60,6 +60,7 @@
                 <th scope="col">{{ 'Customer' }}</th>
                 <th scope="col">{{ 'Key' }}</th>
                 <th scope="col">{{ 'Date' }}</th>
+                <th scope="col">{{ 'Notes' }}</th>
             </tr></thead>
             <tbody>
             {% for sale in licenses %}
@@ -67,14 +68,14 @@
                     <td data-title="id"><code>{{ sale.id }}</code></td>
                     <td data-title="plugin">{{ sale.pluginHandle }}</td>
                     <td data-title="email">{{ sale.email }}</td>
-                    <td data-title="email"><code>{{ sale.key }}</code></td>
-                    <td data-title="date">{{ sale.dateCreated }}</td>
+                    <td data-title="key"><code>{{ sale.key }}</code></td>
+                    <td data-title="date">{{ sale.dateCreated | datetime('short') }}</td>
+                    <td data-title="notes">
+                        {% if sale.notes -%}
+                            <div class="info">{{ sale.notes }}</div>
+                        {%- endif %}
+                    </td>
                 </tr>
-                {% if displayNotes %}
-                    <tr>
-                       <td colspan="5" class="light">{{ "Notes:"|t('craftnet-cp') }}: {{ sale.notes }}</td>
-                    </tr>
-                {% endif %}
             {% endfor %}
             </tbody>
         </table>
