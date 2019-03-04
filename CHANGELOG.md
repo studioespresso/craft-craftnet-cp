@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 1.3.0 - 2019-03-01
+## 1.3.0 - 2019-03-04
 ### Added
-- Support for environment variables in control panel settings.
+- Support for environment variables in control panel settings. (Thanks @mattstein [#5](https://github.com/studioespresso/craft3-craftnet-cp/pull/5))
+- Added console commands to generate single or multiple licenses and to bulk import from csv (Thanks @BenParizek [#4](https://github.com/studioespresso/craft3-craftnet-cp/pull/4))
 ### Changed
 - Improved listing Date display format.
 ### Removed
