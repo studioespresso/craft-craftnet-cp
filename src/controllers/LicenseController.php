@@ -61,30 +61,30 @@ class LicenseController extends Controller
         $license->notes = Craft::$app->request->getBodyParam('notes');
         $license->privateNotes = Craft::$app->request->getBodyParam('privateNotes');
         $license->count = Craft::$app->request->getBodyParam('count');
-        
-        if (!CraftnetCp::$plugin->licenses->createLicense($license))
-        {
+
+        if (!CraftnetCp::$plugin->licenses->createLicense($license)) {
             $errorMessage = Craft::t('craftnet-cp', 'Unable to generate license(s)');
             Craft::$app->getSession()->setError($errorMessage);
             Craft::error($errorMessage);
 
-        $username = CraftnetCp::$plugin->getSettings()->username;
-        $apiKey = CraftnetCp::$plugin->getSettings()->token;
-        $client = $this->_getCraftnetClient($username, $apiKey);
+            $username = CraftnetCp::$plugin->getSettings()->username;
+            $apiKey = CraftnetCp::$plugin->getSettings()->token;
+            $client = $this->_getCraftnetClient($username, $apiKey);
 
-        for ($x = 1; $x <= $count; $x++) {
-            $response = $client->pluginLicenses->create([
-                'edition' => $edition,
-                'plugin' => $handle,
-                'email' => $email,
-                'notes' => $notes,
-                'expirable' => $expirable ? true : false,
-                'privateNotes' => $privateNotes
-            ]);
+            for ($x = 1; $x <= $count; $x++) {
+                $response = $client->pluginLicenses->create([
+                    'edition' => $edition,
+                    'plugin' => $handle,
+                    'email' => $email,
+                    'notes' => $notes,
+                    'expirable' => $expirable ? true : false,
+                    'privateNotes' => $privateNotes
+                ]);
+            }
+
+            Craft::$app->getSession()->setNotice('License(s) generated');
+            return $this->redirectToPostedUrl();
         }
-
-        Craft::$app->getSession()->setNotice('License(s) generated');
-        return $this->redirectToPostedUrl();
     }
 
     /**
@@ -123,8 +123,7 @@ class LicenseController extends Controller
     {
         $isCraft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
 
-        if ($isCraft31)
-        {
+        if ($isCraft31) {
             return new CraftnetClient(
                 Craft::parseEnv($username),
                 Craft::parseEnv($apiKey)
